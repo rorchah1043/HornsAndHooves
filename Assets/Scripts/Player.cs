@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
     {
         if (context.ReadValueAsButton() && _interactObject.GetInteractableObject() != null)
         {
-            _interactObject.GetInteractableObject().InteractableAction();
+            _interactObject.GetInteractableObject().InteractableAction(transform.position);
             Debug.Log("Использован");
         }
     }
