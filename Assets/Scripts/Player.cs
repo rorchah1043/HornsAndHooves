@@ -15,10 +15,21 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    private InteractScript _interactObject;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.maxLinearVelocity = maxSpeed;
+        if(GetComponent<InteractScript>())
+        {
+            _interactObject = GetComponent<InteractScript>();
+        }
+        else
+        {
+            _interactObject = null;
+            Debug.LogError("Проебался InteractScript");
+        }
     }
 
     private void FixedUpdate()
@@ -38,6 +49,15 @@ public class Player : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
-        _force = new Vector3(value.x, 0,value.y) * force;
+        _force = new Vector3(value.x, 0, value.y) * force;
+    }
+
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        if (context.ReadValueAsButton() && _interactObject.GetInteractableObject() != null)
+        {
+            _interactObject.GetInteractableObject().InteractableAction();
+            Debug.Log("Использован");
+        }
     }
 }
