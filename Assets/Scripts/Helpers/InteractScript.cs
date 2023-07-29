@@ -29,7 +29,11 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        _interactable = null;
+        if (_interactable != null)
+        {
+            _interactable.OnHoverExit();
+            _interactable = null;
+        }
     }
 
     private void GetVisibleObject()

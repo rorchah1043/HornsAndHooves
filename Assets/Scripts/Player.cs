@@ -16,20 +16,15 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidbody;
 
     private InteractScript _interactObject;
+    private SimpleAttack _simpleAttack;
+    private RangeAttack _rangeAttack;
 
     private void Start()
     {
+        Cursor.visible = false;
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.maxLinearVelocity = maxSpeed;
-        if(GetComponent<InteractScript>())
-        {
-            _interactObject = GetComponent<InteractScript>();
-        }
-        else
-        {
-            _interactObject = null;
-            Debug.LogError("Проебался InteractScript");
-        }
+        CheckReference();
     }
 
     private void FixedUpdate()
@@ -46,6 +41,39 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void CheckReference()
+    {
+        if (GetComponent<InteractScript>())
+        {
+            _interactObject = GetComponent<InteractScript>();
+        }
+        else
+        {
+            _interactObject = null;
+            Debug.LogError("Проебался InteractScript");
+        }
+
+        if (GetComponent<SimpleAttack>())
+        {
+            _simpleAttack = GetComponent<SimpleAttack>();
+        }
+        else
+        {
+            _simpleAttack = null;
+            Debug.LogError("Проебался SimpleAttack");
+        }
+
+        if (GetComponent<RangeAttack>())
+        {
+            _rangeAttack = GetComponent<RangeAttack>();
+        }
+        else
+        {
+            _rangeAttack = null;
+            Debug.LogError("Проебался RangeAttack");
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
@@ -59,5 +87,15 @@ public class Player : MonoBehaviour
             _interactObject.GetInteractableObject().InteractableAction();
             Debug.Log("Использован");
         }
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        _simpleAttack.Attack();
+    }
+
+    public void OnRangeFire(InputAction.CallbackContext context)
+    {
+        _rangeAttack.Attack();
     }
 }
