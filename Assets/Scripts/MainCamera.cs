@@ -4,21 +4,26 @@ using UnityEngine.InputSystem;
 
 public class MainCamera : MonoBehaviour
 {
-    [SerializeField] private GameObject lookTarget;
+    [SerializeField] private float lookTargetVerticalOffset;
     [SerializeField] private float maxDistanceFromPlayer;
     [SerializeField] private float sensitivity;
 
+    [SerializeField] private float maxCameraSpeed;
+
+    private GameObject _lookTarget;
     private Quaternion _rotation;
 
     private void Start()
     {
-        _rotation = lookTarget.transform.rotation;
+        _rotation = _lookTarget.transform.rotation;
     }
 
     private void Update()
     {
         transform.rotation = _rotation;
-        transform.position = lookTarget.transform.position - _rotation * Vector3.forward * maxDistanceFromPlayer;
+        transform.position = Vector3.MoveTowards(transform.position,
+            _lookTarget.transform.position + Vector3.up * lookTargetVerticalOffset -
+            _rotation * Vector3.forward * maxDistanceFromPlayer, maxCameraSpeed * Time.deltaTime);
     }
 
     public void OnCameraRotate(InputAction.CallbackContext context)
@@ -37,5 +42,10 @@ public class MainCamera : MonoBehaviour
         }
 
         _rotation = Quaternion.Euler(pitch, _rotation.eulerAngles.y + value.x * sensitivity, 0);
+    }
+
+    public void SetLookTarget(GameObject lookTarget)
+    {
+        _lookTarget = lookTarget;
     }
 }
