@@ -10,10 +10,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float followerSideOffset;
     [SerializeField] private float followerBackOffset;
 
+    ICanAttack _leaderAttack;
+    ICanAttack _followeAttack;
+
+    InteractScript _interactLeadScript;
+    InteractScript _interactFollowScript;
+
     private Vector3 _forceDirection;
 
     private void Start()
     {
+        _interactLeadScript = leaderCharacter.GetComponent<InteractScript>();
+        _interactFollowScript = followerCharacter.GetComponent<InteractScript>();
+        _leaderAttack = leaderCharacter.GetComponent<ICanAttack>();
+        _followeAttack = followerCharacter.GetComponent<ICanAttack>();
         playerCamera.SetLookTarget(leaderCharacter.gameObject);
         leaderCharacter.SetPlayerControlled(true);
         followerCharacter.SetPlayerControlled(false);
@@ -46,9 +56,21 @@ public class PlayerController : MonoBehaviour
         _forceDirection = new Vector3(value.x, 0, value.y);
     }
 
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        _leaderAttack.Attack();
+    }
+
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        _interactLeadScript.GetInteractableObject().InteractableAction(transform.position);
+    }
+
     public void OnChangeCharacter()
     {
         (leaderCharacter, followerCharacter) = (followerCharacter, leaderCharacter);
+        (_leaderAttack, _followeAttack) = (_followeAttack, _leaderAttack);
+        (_interactLeadScript, _interactFollowScript) = (_interactFollowScript, _interactLeadScript);
         playerCamera.SetLookTarget(leaderCharacter.gameObject);
         leaderCharacter.SetPlayerControlled(true);
         followerCharacter.SetPlayerControlled(false);

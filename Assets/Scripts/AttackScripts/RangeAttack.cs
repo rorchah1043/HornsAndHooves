@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RangeAttack : MonoBehaviour
+public class RangeAttack : MonoBehaviour, ICanAttack
 {
     [Header("Параметры Атаки")]
     [SerializeField] private float radiusOfAreaAttack;

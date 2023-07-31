@@ -6,12 +6,14 @@ public class Character : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private NavMeshAgent _navMeshAgent;
+    private BoxCollider _interactZone;
 
     private Vector3 _force;
     private Quaternion _targetRotation;
 
     private void Start()
     {
+        _interactZone = GetComponent<BoxCollider>();
         _rigidbody = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
@@ -48,6 +50,7 @@ public class Character : MonoBehaviour
     public void SetPlayerControlled(bool isPlayerControlled)
     {
         enabled = isPlayerControlled;
+        _interactZone.enabled = isPlayerControlled;
         _rigidbody.isKinematic = !isPlayerControlled;
         _navMeshAgent.enabled = !isPlayerControlled;
 

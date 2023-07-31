@@ -9,7 +9,7 @@ public class InteractScript : MonoBehaviour
     private IInteractable _interactable = null;
     int _layerMask;
 
-    private void Awake()
+    private void Start()
     {
         _layerMask = 1 << layerNumber;
     }
