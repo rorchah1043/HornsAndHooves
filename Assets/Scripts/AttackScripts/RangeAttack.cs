@@ -5,11 +5,11 @@ using UnityEngine;
 public class RangeAttack : MonoBehaviour
 {
     [Header("Параметры Атаки")]
-    [SerializeField] private float _radiusOfAreaAttack;
-    [SerializeField] private float _distance;
-    [SerializeField] private float _damage;
-    [SerializeField] private float _coldownTime;
-    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private float radiusOfAreaAttack;
+    [SerializeField] private float distance;
+    [SerializeField] private float damage;
+    [SerializeField] private float coldownTime;
+    [SerializeField] private GameObject bulletPrefab;
 
     private GameObject _newBull;
     private bool _isInCooldown = false;
@@ -19,13 +19,13 @@ public class RangeAttack : MonoBehaviour
         if(!_isInCooldown)
         {
             RaycastHit hit;
-            Physics.SphereCast(transform.position, _radiusOfAreaAttack, transform.forward, out hit, _distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
+            Physics.SphereCast(transform.position, radiusOfAreaAttack, transform.forward, out hit, distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
             if (hit.collider?.GetComponent<IDamagable>() != null)
             {
-                _newBull = Instantiate(_bulletPrefab, transform.position + transform.forward, Quaternion.identity);
-                _newBull.GetComponent<MoveToTarget>().SetTargetAndDamage(hit.collider.gameObject, _damage);
+                _newBull = Instantiate(bulletPrefab, transform.position + transform.forward, Quaternion.identity);
+                _newBull.GetComponent<MoveToTarget>().SetTargetAndDamage(hit.collider.gameObject, damage);
                 _isInCooldown = true;
-                StartCoroutine(Cooldown(_coldownTime));
+                StartCoroutine(Cooldown(coldownTime));
             }
         }
         
@@ -41,6 +41,6 @@ public class RangeAttack : MonoBehaviour
     {
         Gizmos.color = Color.blue;
 
-        Gizmos.DrawWireSphere(transform.position + transform.forward * _distance, _radiusOfAreaAttack);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * distance, radiusOfAreaAttack);
     }
 }

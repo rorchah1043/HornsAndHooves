@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveToTarget : MonoBehaviour
 {
-    [SerializeField] float _speed;
+    [SerializeField] float speed;
 
     private GameObject _target;
     private float _damage;
@@ -20,7 +20,7 @@ public class MoveToTarget : MonoBehaviour
         if(_target != null)
         {
             Vector3 dir = _target.transform.position - transform.position;
-            transform.position += (dir.normalized * Time.deltaTime * _speed);
+            transform.position += (dir.normalized * Time.deltaTime * speed);
             transform.up = dir.normalized;
         }
         else

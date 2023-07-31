@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KickScript : MonoBehaviour, IInteractable
 {
-    [SerializeField] private float _damage;
+    [SerializeField] private float damage;
     private Outline _outline;
     private Rigidbody _rigidbody;
 
@@ -35,7 +35,7 @@ public class KickScript : MonoBehaviour, IInteractable
     {
         if (collision.collider?.GetComponent<IDamagable>() != null)
         {
-            collision.collider.GetComponent<IDamagable>().GetDamage(_damage);
+            collision.collider.GetComponent<IDamagable>().GetDamage(damage);
         }
     }
 }
