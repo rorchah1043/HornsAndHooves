@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Change Character",
+                    "type": "Button",
+                    "id": "ed317c36-2494-4b13-8e58-13e6c16b77e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "RangeFire",
                     "type": "Button",
                     "id": "43711fbf-e9fb-4714-a14d-7d289fce1249",
@@ -225,6 +234,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0780152d-aff2-427e-a9d3-8c1556eb75a4",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Change Character",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3492f57c-40e2-4077-b1ef-95e579f80f8f",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Change Character",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
