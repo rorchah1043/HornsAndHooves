@@ -5,9 +5,9 @@ using UnityEngine;
 public class SimpleAttack : MonoBehaviour
 {
     [Header("Параметры Атаки")]
-    [SerializeField] float _radiusOfAreaAttack;
-    [SerializeField] float _damage;
-    [SerializeField] private float _coldownTime;
+    [SerializeField] float radiusOfAreaAttack;
+    [SerializeField] float damage;
+    [SerializeField] private float coldownTime;
 
     private bool _isInCooldown = false;
 
@@ -15,17 +15,17 @@ public class SimpleAttack : MonoBehaviour
     {
         if(!_isInCooldown)
         {
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, _radiusOfAreaAttack, transform.forward, _radiusOfAreaAttack, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, radiusOfAreaAttack, transform.forward, radiusOfAreaAttack, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal
                         );
             foreach (var hit in hits)
             {
                 if (hit.collider?.GetComponent<IDamagable>() != null)
                 {
-                    hit.collider.GetComponent<IDamagable>().GetDamage(_damage);
+                    hit.collider.GetComponent<IDamagable>().GetDamage(damage);
                 }
             }
             _isInCooldown = true;
-            StartCoroutine(Cooldown(_coldownTime));
+            StartCoroutine(Cooldown(coldownTime));
         }
         
     }
@@ -40,7 +40,7 @@ public class SimpleAttack : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawWireSphere(transform.position + transform.forward * _radiusOfAreaAttack, _radiusOfAreaAttack);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * radiusOfAreaAttack, radiusOfAreaAttack);
     }
 
 }

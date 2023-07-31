@@ -581,6 +581,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ed317c36-2494-4b13-8e58-13e6c16b77e3
     m_ActionName: Player/Change Character[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 634f7b4b-42df-4fde-ab4c-28b2b33ebc0f
+    m_ActionName: Player/Use[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43711fbf-e9fb-4714-a14d-7d289fce1249
+    m_ActionName: Player/RangeFire[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

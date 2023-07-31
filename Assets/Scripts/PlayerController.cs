@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -9,8 +7,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Character leaderCharacter;
     [SerializeField] private Character followerCharacter;
 
-    [SerializeField] public float followerSideOffset;
-    [SerializeField] public float followerBackOffset;
+    [SerializeField] private float followerSideOffset;
+    [SerializeField] private float followerBackOffset;
 
     private Vector3 _forceDirection;
 
