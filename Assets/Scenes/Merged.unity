@@ -1932,7 +1932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2572b6bbf0b77cc4d87aece9600fa923, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.26
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2572b6bbf0b77cc4d87aece9600fa923, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2993,10 +2993,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66db2c6b06c54489488d9b738accdbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radiusOfAreaAttack: 0
-  distance: 0
-  damage: 0
-  coldownTime: 0
+  radiusOfAreaAttack: 1
+  distance: 15
+  damage: 1
+  coldownTime: 1
   bulletPrefab: {fileID: 6063956481473372564, guid: 3d1691434973f4098a11b18ba47b657d, type: 3}
 --- !u!114 &1716513403
 MonoBehaviour:
@@ -3364,7 +3364,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 62138a93e05e32145ad457239a00addd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
