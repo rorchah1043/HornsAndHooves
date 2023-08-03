@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 
 public class Character : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class Character : MonoBehaviour
     private Vector3 _force;
     private Quaternion _targetRotation;
 
-    private void Start()
+
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        
+
 
         if (_rigidbody == null)
         {
@@ -38,6 +42,7 @@ public class Character : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
                 _targetRotation, _navMeshAgent.angularSpeed * Time.deltaTime);
         }
+
     }
 
     private void FixedUpdate()
@@ -50,7 +55,6 @@ public class Character : MonoBehaviour
         enabled = isPlayerControlled;
         _rigidbody.isKinematic = !isPlayerControlled;
         _navMeshAgent.enabled = !isPlayerControlled;
-
         if (isPlayerControlled)
         {
             _targetRotation = transform.rotation;
@@ -70,5 +74,10 @@ public class Character : MonoBehaviour
     public Quaternion GetTargetRotation()
     {
         return _targetRotation;
+    }
+
+    public NavMeshAgent GetNavMeshAgent()
+    {
+        return _navMeshAgent;
     }
 }

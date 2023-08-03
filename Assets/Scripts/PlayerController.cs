@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -10,13 +11,38 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float followerSideOffset;
     [SerializeField] private float followerBackOffset;
 
+    [SerializeField] private Animator leaderAnimator;
+    [SerializeField] private Animator followerAnimator;
+
+    private int _velocityXHash;
+    private int _velocityZHash;
+
     private Vector3 _forceDirection;
+
+    private NavMeshAgent _followerNavMeshAgent;
+
+    ICanAttack _leaderAttack;
+    ICanAttack _followeAttack;
+
+    InteractScript _interactLeadScript;
+    InteractScript _interactFollowScript;
+
 
     private void Start()
     {
+        _interactLeadScript = leaderCharacter.GetComponent<InteractScript>();
+        _interactFollowScript = followerCharacter.GetComponent<InteractScript>();
+        _leaderAttack = leaderCharacter.GetComponent<ICanAttack>();
+        _followeAttack = followerCharacter.GetComponent<ICanAttack>();
+
+        _velocityXHash = Animator.StringToHash("VelocityX");
+        _velocityZHash = Animator.StringToHash("VelocityZ");
+
         playerCamera.SetLookTarget(leaderCharacter.gameObject);
         leaderCharacter.SetPlayerControlled(true);
         followerCharacter.SetPlayerControlled(false);
+        _followerNavMeshAgent = followerCharacter.GetNavMeshAgent();
+
     }
 
     private void Update()
@@ -38,19 +64,59 @@ public class PlayerController : MonoBehaviour
             Vector3.Distance(followerPosition, followerTargetPosition2)
                 ? followerTargetPosition1
                 : followerTargetPosition2);
+
+
+        if (_followerNavMeshAgent.velocity != Vector3.zero)
+        {
+            followerAnimator.SetFloat(_velocityZHash, (_followerNavMeshAgent.velocity.magnitude) / _followerNavMeshAgent.speed);
+
+        }
+        else if (_followerNavMeshAgent.velocity.magnitude < 1)
+        {
+            followerAnimator.SetFloat(_velocityZHash, 0);
+
+        }
+
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
         _forceDirection = new Vector3(value.x, 0, value.y);
+
+        leaderAnimator.SetFloat(_velocityXHash,value.x);
+        leaderAnimator.SetFloat(_velocityZHash, value.y);
     }
 
     public void OnChangeCharacter()
     {
         (leaderCharacter, followerCharacter) = (followerCharacter, leaderCharacter);
+        (leaderAnimator, followerAnimator) = (followerAnimator, leaderAnimator);
+        (_leaderAttack, _followeAttack) = (_followeAttack, _leaderAttack);
+        (_interactLeadScript, _interactFollowScript) = (_interactFollowScript, _interactLeadScript);
+        _followerNavMeshAgent = followerCharacter.GetNavMeshAgent();
         playerCamera.SetLookTarget(leaderCharacter.gameObject);
         leaderCharacter.SetPlayerControlled(true);
         followerCharacter.SetPlayerControlled(false);
     }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        _leaderAttack.Attack();
+    }
+
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (_interactLeadScript.GetInteractableObject() != null && leaderCharacter.GetComponent<BoxCollider>().enabled)
+            {
+                _interactLeadScript.GetInteractableObject().InteractableAction(leaderCharacter.gameObject);
+            }
+        }
+
+
+    }
+
 }

@@ -22,9 +22,9 @@ public class PickupScript : MonoBehaviour,IInteractable
         _outline.OutlineWidth = 0;
     }
 
-    public void InteractableAction(Vector3 vector)
+    public void InteractableAction(GameObject gameObject)
     {
         Debug.Log("Item Pickup");
-        Destroy(gameObject);
+        Destroy(this.gameObject);
     }
 }
