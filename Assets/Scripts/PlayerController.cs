@@ -63,7 +63,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnUse(InputAction.CallbackContext context)
     {
-        _interactLeadScript.GetInteractableObject().InteractableAction(transform.position);
+        if(context.started)
+        {
+            if (_interactLeadScript.GetInteractableObject() != null && leaderCharacter.GetComponent<BoxCollider>().enabled)
+            {
+                _interactLeadScript.GetInteractableObject().InteractableAction(transform.position);
+            }
+        }
+        
+        
     }
 
     public void OnChangeCharacter()

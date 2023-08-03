@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class Character : MonoBehaviour
 {
+    private Vector3 _boxColiderSize;
+
     private Rigidbody _rigidbody;
     private NavMeshAgent _navMeshAgent;
     private BoxCollider _interactZone;
@@ -11,9 +13,10 @@ public class Character : MonoBehaviour
     private Vector3 _force;
     private Quaternion _targetRotation;
 
-    private void Start()
+    private void Awake()
     {
         _interactZone = GetComponent<BoxCollider>();
+        _boxColiderSize = _interactZone.size;
         _rigidbody = GetComponent<Rigidbody>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
@@ -73,5 +76,18 @@ public class Character : MonoBehaviour
     public Quaternion GetTargetRotation()
     {
         return _targetRotation;
+    }
+
+    private void CheckColiderStatus(bool value)
+    {
+        if(value)
+        {
+            _interactZone.size = _boxColiderSize;
+        }
+        else
+        {
+            _boxColiderSize = _interactZone.size;
+            _interactZone.size = Vector3.zero;
+        }
     }
 }

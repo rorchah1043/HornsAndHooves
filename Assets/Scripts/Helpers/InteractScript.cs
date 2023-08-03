@@ -7,11 +7,13 @@ public class InteractScript : MonoBehaviour
     [SerializeField] private int layerNumber;
 
     private IInteractable _interactable = null;
+    private Collider _interactZone;
     int _layerMask;
 
-    private void Start()
+    private void Awake()
     {
         _layerMask = 1 << layerNumber;
+        _interactZone = GetComponent<BoxCollider>();
     }
 
     public IInteractable GetInteractableObject()
@@ -29,7 +31,7 @@ public class InteractScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (_interactable != null)
+        if (_interactable != null && _interactZone.enabled)
         {
             _interactable.OnHoverExit();
             _interactable = null;

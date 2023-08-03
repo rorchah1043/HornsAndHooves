@@ -25,6 +25,10 @@ public class PickupScript : MonoBehaviour,IInteractable
     public void InteractableAction(Vector3 vector)
     {
         Debug.Log("Item Pickup");
-        Destroy(gameObject);
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
+        
     }
 }
