@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private int _velocityXHash;
     private int _velocityZHash;
+    private float t = 0;
 
     private Vector3 _forceDirection;
 
@@ -68,25 +69,28 @@ public class PlayerController : MonoBehaviour
 
         if (_followerNavMeshAgent.velocity != Vector3.zero)
         {
-            followerAnimator.SetFloat(_velocityZHash, (_followerNavMeshAgent.velocity.magnitude) / _followerNavMeshAgent.speed);
+            followerAnimator.SetFloat(_velocityXHash, Mathf.Lerp(0,1,t));
+            t += 100 * Time.deltaTime *Time.deltaTime;
 
         }
-        else if (_followerNavMeshAgent.velocity.magnitude < 1)
+        else if (_followerNavMeshAgent.velocity.magnitude == 0)
         {
-            followerAnimator.SetFloat(_velocityZHash, 0);
-
+            followerAnimator.SetFloat(_velocityXHash, 0);
         }
-
-
+        else
+        {
+            t -= 10 * Time.deltaTime * Time.deltaTime;
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         var value = context.ReadValue<Vector2>();
-        _forceDirection = new Vector3(value.x, 0, value.y);
 
+        _forceDirection = new Vector3(value.x, 0, value.y);
+        
         leaderAnimator.SetFloat(_velocityXHash,value.x);
-        leaderAnimator.SetFloat(_velocityZHash, value.y);
+        leaderAnimator.SetFloat(_velocityZHash, Mathf.Abs(value.y));
     }
 
     public void OnChangeCharacter()
@@ -103,7 +107,12 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        _leaderAttack.Attack();
+        _leaderAttack.Attack(AttackType.Melee);
+    }
+
+    public void OnRangeFire(InputAction.CallbackContext context)
+    {
+        _leaderAttack.Attack(AttackType.Range);
     }
 
     public void OnUse(InputAction.CallbackContext context)
@@ -115,8 +124,5 @@ public class PlayerController : MonoBehaviour
                 _interactLeadScript.GetInteractableObject().InteractableAction(leaderCharacter.gameObject);
             }
         }
-
-
     }
-
 }

@@ -14,30 +14,19 @@ public class SimpleAttack : MonoBehaviour, ICanAttack
 
     [SerializeField] private Animator animator;
     [SerializeField] private Character character;
+    [SerializeField] private float damageDelayTime = 0.4f;
 
-    public void Attack()
+    public void Attack(AttackType type)
     {
-        if(!_isInCooldown)
+        switch (type)
         {
-            if(character.enabled) 
-            {
-                //int number = Random.Range(0, 4);
-                animator.SetInteger("MeleeNumber", 0);
-                animator.SetTrigger("Melee");                
-            }
-            
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, radiusOfAreaAttack, transform.forward, radiusOfAreaAttack, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
-            foreach (var hit in hits)
-            {
-                if (hit.collider?.GetComponent<IDamagable>() != null)
-                {
-                    StartCoroutine(WaitForSlashAttack(hit));
-                }
-            }
-            _isInCooldown = true;
-            StartCoroutine(Cooldown(coldownTime));
+            case AttackType.Melee:
+                MeleeAttack();
+                break;
+            case AttackType.Range:
+                break;
         }
-        
+
     }
 
     IEnumerator Cooldown(float time)
@@ -49,7 +38,7 @@ public class SimpleAttack : MonoBehaviour, ICanAttack
 
     private IEnumerator WaitForSlashAttack(RaycastHit hit)
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(damageDelayTime);
         hit.collider.GetComponent<IDamagable>().GetDamage(damage);
     }
 
@@ -57,6 +46,30 @@ public class SimpleAttack : MonoBehaviour, ICanAttack
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * radiusOfAreaAttack, radiusOfAreaAttack);
+    }
+
+    private void MeleeAttack()
+    {
+        if (!_isInCooldown)
+        {
+            if (character.enabled)
+            {
+                //int number = Random.Range(0, 4);
+                animator.SetInteger("MeleeNumber", 0);
+                animator.SetTrigger("Melee");
+            }
+
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, radiusOfAreaAttack, transform.forward, radiusOfAreaAttack, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
+            foreach (var hit in hits)
+            {
+                if (hit.collider?.GetComponent<IDamagable>() != null)
+                {
+                    StartCoroutine(WaitForSlashAttack(hit));
+                }
+            }
+            _isInCooldown = true;
+            StartCoroutine(Cooldown(coldownTime));
+        }
     }
 
 }

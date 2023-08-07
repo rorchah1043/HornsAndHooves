@@ -22,6 +22,7 @@ public class KickScript : MonoBehaviour, IInteractable
 
     public void InteractableAction(GameObject gameObject)
     {
+        if(!gameObject.CompareTag("Alyonushka"))
         if(!_isWaitingForKick)StartCoroutine(WaitForKick(gameObject));
     }
 
@@ -54,7 +55,7 @@ public class KickScript : MonoBehaviour, IInteractable
             animator.SetTrigger("Kick");
         }
 
-        yield return new WaitForSeconds(0.11f);
+        yield return new WaitForSeconds(0.42f);
         _isWaitingForKick = false;
         //Vector3 dir = transform.position - gameObject.transform.position;
         Vector3 dir = -transform.right;

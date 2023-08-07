@@ -13,21 +13,25 @@ public class RangeAttack : MonoBehaviour, ICanAttack
 
     private GameObject _newBull;
     private bool _isInCooldown = false;
+    private SimpleAttack _simpleAttack;
 
-    public void Attack()
+    private void Awake()
     {
-        if(!_isInCooldown)
+        _simpleAttack = GetComponent<SimpleAttack>();
+    }
+
+    public void Attack(AttackType type)
+    {
+        switch (type)
         {
-            RaycastHit hit;
-            Physics.SphereCast(transform.position, radiusOfAreaAttack, transform.forward, out hit, distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
-            if (hit.collider?.GetComponent<IDamagable>() != null)
-            {
-                _newBull = Instantiate(bulletPrefab, transform.position + transform.forward, Quaternion.identity);
-                _newBull.GetComponent<MoveToTarget>().SetTargetAndDamage(hit.collider.gameObject, damage);
-                _isInCooldown = true;
-                StartCoroutine(Cooldown(coldownTime));
-            }
+            case AttackType.Melee:
+                _simpleAttack.Attack(AttackType.Melee);
+                break;
+            case AttackType.Range:
+                DistantAttack();
+                break;
         }
+        
         
     }
 
@@ -42,5 +46,21 @@ public class RangeAttack : MonoBehaviour, ICanAttack
         Gizmos.color = Color.blue;
 
         Gizmos.DrawWireSphere(transform.position + transform.forward * distance, radiusOfAreaAttack);
+    }
+
+    private void DistantAttack()
+    {
+        if (!_isInCooldown)
+        {
+            RaycastHit hit;
+            Physics.SphereCast(transform.position, radiusOfAreaAttack, transform.forward, out hit, distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
+            if (hit.collider?.GetComponent<IDamagable>() != null)
+            {
+                _newBull = Instantiate(bulletPrefab, transform.position + transform.forward, Quaternion.identity);
+                _newBull.GetComponent<MoveToTarget>().SetTargetAndDamage(hit.collider.gameObject, damage);
+                _isInCooldown = true;
+                StartCoroutine(Cooldown(coldownTime));
+            }
+        }
     }
 }
