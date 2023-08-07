@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private int _velocityXHash;
     private int _velocityZHash;
-    private float t = 0;
+    private float _t = 0;
+    private float _multiplier = 1;
 
     private Vector3 _forceDirection;
 
@@ -67,10 +68,14 @@ public class PlayerController : MonoBehaviour
                 : followerTargetPosition2);
 
 
+
+
+
+
         if (_followerNavMeshAgent.velocity != Vector3.zero)
         {
-            followerAnimator.SetFloat(_velocityXHash, Mathf.Lerp(0,1,t));
-            t += 100 * Time.deltaTime *Time.deltaTime;
+            followerAnimator.SetFloat(_velocityXHash, Mathf.Lerp(0,2,_t));
+            _t += 100 * Time.deltaTime *Time.deltaTime;
 
         }
         else if (_followerNavMeshAgent.velocity.magnitude == 0)
@@ -79,7 +84,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            t -= 10 * Time.deltaTime * Time.deltaTime;
+            _t -= 10 * Time.deltaTime * Time.deltaTime;
         }
     }
 
@@ -87,10 +92,10 @@ public class PlayerController : MonoBehaviour
     {
         var value = context.ReadValue<Vector2>();
 
-        _forceDirection = new Vector3(value.x, 0, value.y);
+        _forceDirection = new Vector3(value.x * 4, 0, value.y * 4);
         
-        leaderAnimator.SetFloat(_velocityXHash,value.x);
-        leaderAnimator.SetFloat(_velocityZHash, Mathf.Abs(value.y));
+        leaderAnimator.SetFloat(_velocityXHash,value.x*2);
+        leaderAnimator.SetFloat(_velocityZHash, Mathf.Abs(value.y * 2));
     }
 
     public void OnChangeCharacter()

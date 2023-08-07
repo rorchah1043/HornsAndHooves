@@ -14,10 +14,12 @@ public class RangeAttack : MonoBehaviour, ICanAttack
     private GameObject _newBull;
     private bool _isInCooldown = false;
     private SimpleAttack _simpleAttack;
+    private Animator _animator;
 
     private void Awake()
     {
         _simpleAttack = GetComponent<SimpleAttack>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     public void Attack(AttackType type)
@@ -56,6 +58,7 @@ public class RangeAttack : MonoBehaviour, ICanAttack
             Physics.SphereCast(transform.position, radiusOfAreaAttack, transform.forward, out hit, distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
             if (hit.collider?.GetComponent<IDamagable>() != null)
             {
+                _animator.SetTrigger("Range");
                 _newBull = Instantiate(bulletPrefab, transform.position + transform.forward, Quaternion.identity);
                 _newBull.GetComponent<MoveToTarget>().SetTargetAndDamage(hit.collider.gameObject, damage);
                 _isInCooldown = true;
