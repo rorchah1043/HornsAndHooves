@@ -798,6 +798,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 634f7b4b-42df-4fde-ab4c-28b2b33ebc0f
     m_ActionName: Player/Use[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 620556854}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRangeFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: df74c7b9-2f4f-4dc1-8996-12b61a4fc112
+    m_ActionName: Player/RangeFire[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -3057,6 +3073,7 @@ GameObject:
   - component: {fileID: 389307663}
   - component: {fileID: 389307664}
   - component: {fileID: 7640057500130575334}
+  - component: {fileID: 7640057500130575335}
   m_Layer: 0
   m_Name: Player 2
   m_TagString: Untagged
@@ -3155,6 +3172,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layerNumber: 3
+--- !u!114 &7640057500130575335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5665597692920223171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88f593c379a845fb8a8014743a6b8b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radiusOfAreaAttack: 1
+  damage: 15
+  coldownTime: 1
 --- !u!114 &8996969843543057352
 MonoBehaviour:
   m_ObjectHideFlags: 0

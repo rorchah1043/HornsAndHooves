@@ -4,16 +4,28 @@ using UnityEngine;
 
 public class SimpleAttack : MonoBehaviour, ICanAttack
 {
-    [Header("Параметры Атаки")]
+    [Header("Параметры ближней Атаки")]
     [SerializeField] float radiusOfAreaAttack;
     [SerializeField] float damage;
     [SerializeField] private float coldownTime;
 
     private bool _isInCooldown = false;
 
-    public void Attack()
+    public void Attack(AttackType type)
     {
-        if(!_isInCooldown)
+        switch(type)
+        {
+            case AttackType.Milli:
+                MilliAttack();
+                break;
+            case AttackType.Range:
+                break;
+        }  
+    }
+
+    private void MilliAttack()
+    {
+        if (!_isInCooldown)
         {
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, radiusOfAreaAttack, transform.forward, radiusOfAreaAttack, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal
                         );
@@ -27,7 +39,6 @@ public class SimpleAttack : MonoBehaviour, ICanAttack
             _isInCooldown = true;
             StartCoroutine(Cooldown(coldownTime));
         }
-        
     }
 
     IEnumerator Cooldown(float time)

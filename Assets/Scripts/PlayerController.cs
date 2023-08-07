@@ -58,8 +58,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        _leaderAttack.Attack();
+        _leaderAttack.Attack(AttackType.Milli);
     }
+
+    public void OnRangeFire(InputAction.CallbackContext context)
+    {
+        _leaderAttack.Attack(AttackType.Range);
+    }
+
+
 
     public void OnUse(InputAction.CallbackContext context)
     {

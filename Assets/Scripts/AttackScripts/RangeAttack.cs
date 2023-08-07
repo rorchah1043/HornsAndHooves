@@ -14,9 +14,29 @@ public class RangeAttack : MonoBehaviour, ICanAttack
     private GameObject _newBull;
     private bool _isInCooldown = false;
 
-    public void Attack()
+    private SimpleAttack _simpleAttack;
+
+    private void Awake()
     {
-        if(!_isInCooldown)
+        _simpleAttack = GetComponent<SimpleAttack>();
+    }
+
+    public void Attack(AttackType type)
+    {
+        switch (type)
+        {
+            case AttackType.Milli:
+                _simpleAttack.Attack(AttackType.Milli);
+                break;
+            case AttackType.Range:
+                RanngeAttack();
+                break;
+        }
+    }
+
+    private void RanngeAttack()
+    {
+        if (!_isInCooldown)
         {
             RaycastHit hit;
             Physics.SphereCast(transform.position, radiusOfAreaAttack, transform.forward, out hit, distance, LayerMask.GetMask("Default"), QueryTriggerInteraction.UseGlobal);
@@ -28,7 +48,6 @@ public class RangeAttack : MonoBehaviour, ICanAttack
                 StartCoroutine(Cooldown(coldownTime));
             }
         }
-        
     }
 
     IEnumerator Cooldown(float time)

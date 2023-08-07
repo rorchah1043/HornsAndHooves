@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RangeFire",
+                    "type": "Button",
+                    "id": "df74c7b9-2f4f-4dc1-8996-12b61a4fc112",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Change Character",
                     "type": "Button",
                     "id": "ed317c36-2494-4b13-8e58-13e6c16b77e3",
@@ -236,6 +245,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Change Character",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b345ec9-00e6-4d36-b285-8921d8a5f0c7",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "RangeFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
